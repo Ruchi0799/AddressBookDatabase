@@ -1,0 +1,329 @@
+UC1- ABILITY TO CREATE A ADDRESS BOOK SERVICE DB
+->
+mysql> create database addressbookservice;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbookservice |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use addressbookservice;
+Database changed
+
+UC2- ABILITY TO CREATE A ADDRESS BOOK TABLE with first and
+last names, address, city,
+state, zip, phone number
+and email as its attributes
+
+->
+mysql> create table contact_book
+    -> (
+    -> firstname VARCHAR(50) NOT NULL,
+    -> lastname VARCHAR(50),
+    -> address VARCHAR(50),
+    -> city varchar(50) NOT NULL,
+    -> state varchar(50) NOT NULL,
+    -> zip INT NOT NULL,
+    -> phonenumber varchar(50) not null,
+    -> email varchar(50) not null,
+    -> PRIMARY KEY(firstname));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> describe contact_book
+    -> ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| firstname   | varchar(50) | NO   | PRI | NULL    |       |
+| lastname    | varchar(50) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| city        | varchar(50) | NO   |     | NULL    |       |
+| state       | varchar(50) | NO   |     | NULL    |       |
+| zip         | int         | NO   |     | NULL    |       |
+| phonenumber | varchar(50) | NO   |     | NULL    |       |
+| email       | varchar(50) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+UC3-Ability to insert new
+Contacts to Address
+Book
+
+->mysql> insert into contact_book values('Ruchi','Mandve','Sanpada','Navi Mumbai','Maharashtra',400705,'9892735509','ruchimandve07@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from contact_book;
++-----------+----------+---------+-------------+-------------+--------+-------------+-------------------------+
+| firstname | lastname | address | city        | state       | zip    | phonenumber | email                   |
++-----------+----------+---------+-------------+-------------+--------+-------------+-------------------------+
+| Ruchi     | Mandve   | Sanpada | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com |
++-----------+----------+---------+-------------+-------------+--------+-------------+-------------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into contact_book values('Prachi','Mandve','Vashi','Navi Mumbai','Maharashtra',400703,'9967734725','prachimandve07@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into contact_book values('Prajakta','Tambe','Kalamboli','Panvel','Maharashtra',410218,'8104706110','prajtambe@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from contact_book;
++-----------+----------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | address   | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | Vashi     | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+-----------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+
+UC4-Ability to edit
+existing contact
+person using their name
+
+->
+mysql> select * from contact_book;
++-----------+----------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | address   | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | Vashi     | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+-----------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+mysql> update contact_book set address='Koperkhairne' where name='Prachi';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> update contact_book set address='Koperkhairne' where firstname='Prachi';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from contact_book;
++-----------+----------+--------------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | address      | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+--------------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | Koperkhairne | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | Kalamboli    | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | Sanpada      | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+--------------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+UC5-Ability to delete a
+person using person's name
+
+->mysql> select * from contact_book;
++-----------+----------+--------------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | address      | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+--------------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | Koperkhairne | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | Kalamboli    | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | Sanpada      | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+--------------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from contact_book where firstname='Prachi';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from contact_book;
++-----------+----------+-----------+-------------+-------------+--------+-------------+-------------------------+
+| firstname | lastname | address   | city        | state       | zip    | phonenumber | email                   |
++-----------+----------+-----------+-------------+-------------+--------+-------------+-------------------------+
+| Prajakta  | Tambe    | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com     |
+| Ruchi     | Mandve   | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com |
++-----------+----------+-----------+-------------+-------------+--------+-------------+-------------------------+
+2 rows in set (0.00 sec)
+
+
+UC6-Ability to Retrieve
+Person belonging to
+a City or State from
+the Address Book
+
+mysql> select * from contact_book where city='Navi Mumbai' OR state='Maharashtra';
++-----------+----------+-----------+-------------+-------------+--------+-------------+-------------------------+
+| firstname | lastname | address   | city        | state       | zip    | phonenumber | email                   |
++-----------+----------+-----------+-------------+-------------+--------+-------------+-------------------------+
+| Prajakta  | Tambe    | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com     |
+| Ruchi     | Mandve   | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com |
++-----------+----------+-----------+-------------+-------------+--------+-------------+-------------------------+
+2 rows in set (0.00 sec)
+
+mysql>
+
+
+UC7-Ability to understand
+the size of address
+book by City and State
+
+->mysql> Select city,Count(city) from contact_book group by city;
++-------------+-------------+
+| city        | Count(city) |
++-------------+-------------+
+| Navi Mumbai |           2 |
+| Panvel      |           1 |
++-------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> Select state,Count(state) from contact_book group by state;
++-------------+--------------+
+| state       | Count(state) |
++-------------+--------------+
+| Maharashtra |            3 |
++-------------+--------------+
+1 row in set (0.00 sec)
+
+
+
+UC8-Ability to retrieve entries
+sorted alphabetically by
+Person’s name for a given city
+
+mysql> Select firstname,city from contact_book where city='Navi Mumbai';
++-----------+-------------+
+| firstname | city        |
++-----------+-------------+
+| Prachi    | Navi Mumbai |
+| Ruchi     | Navi Mumbai |
++-----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> Select firstname,city from contact_book where city='Navi Mumbai' order by firstname ASC;
++-----------+-------------+
+| firstname | city        |
++-----------+-------------+
+| Prachi    | Navi Mumbai |
+| Ruchi     | Navi Mumbai |
++-----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> Select firstname,city from contact_book where city='Navi Mumbai' order by firstname DESC;
++-----------+-------------+
+| firstname | city        |
++-----------+-------------+
+| Ruchi     | Navi Mumbai |
+| Prachi    | Navi Mumbai |
++-----------+-------------+
+2 rows in set (0.00 sec)
+
+
+UC 9-Ability to identify each
+Address Book with name and Type. - Here the type could Family, Friends,
+Profession, etc
+- Alter Address Book to add name and type
+
+mysql> Alter table contact_book add name varchar(50) after lastname;
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Alter table contact_book add type varchar(50) after name;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe contact_book
+    -> ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| firstname   | varchar(50) | NO   | PRI | NULL    |       |
+| lastname    | varchar(50) | YES  |     | NULL    |       |
+| name        | varchar(50) | YES  |     | NULL    |       |
+| type        | varchar(50) | YES  |     | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| city        | varchar(50) | NO   |     | NULL    |       |
+| state       | varchar(50) | NO   |     | NULL    |       |
+| zip         | int         | NO   |     | NULL    |       |
+| phonenumber | varchar(50) | NO   |     | NULL    |       |
+| email       | varchar(50) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+10 rows in set (0.01 sec)
+
+
+mysql> update contact_book set name='familybook',type='family' where firstname='Prachi' or firstname='Ruchi';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from contact_book;
++-----------+----------+------------+--------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | name       | type   | address   | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+------------+--------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | familybook | family | Vashi     | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | NULL       | NULL   | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | familybook | family | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+------------+--------+-----------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+mysql> update contact_book set name='friendsbook',type='friends' where firstname='Prajakta';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from contact_book;
++-----------+----------+-------------+---------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | name        | type    | address   | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+-------------+---------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | familybook  | family  | Vashi     | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | friendsbook | friends | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | familybook  | family  | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+-------------+---------+-----------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+
+
+UC10-Ability to get number
+of contact persons
+i.e. count by type
+
+->
+mysql> Select type,Count(type) from contact_book group by type;
++---------+-------------+
+| type    | Count(type) |
++---------+-------------+
+| family  |           2 |
+| friends |           1 |
++---------+-------------+
+2 rows in set (0.00 sec)
+
+
+
+
+UC11-Ability to add person
+
+to both Friend and Family
+
+mysql> select * from contact_book;
++-----------+----------+-------------+---------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | name        | type    | address   | city        | state       | zip    | phonenumber | email                    |
++-----------+----------+-------------+---------+-----------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve   | familybook  | family  | Vashi     | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe    | friendsbook | friends | Kalamboli | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Ruchi     | Mandve   | familybook  | family  | Sanpada   | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
++-----------+----------+-------------+---------+-----------+-------------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into contact_book values('Rutuja','Saigaonkar','friendsbook','friends','New Panvel','Panvel','Maharashtra',410216,'8380037719','rutssai@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into contact_book values('Pratibha','Mandve','familybook','family','Kothrud','Pune','Maharashtra',405551,'9987365780','pratibha67@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from contact_book;
++-----------+------------+-------------+---------+------------+-------------+-------------+--------+-------------+--------------------------+
+| firstname | lastname   | name        | type    | address    | city        | state       | zip    | phonenumber | email                    |
++-----------+------------+-------------+---------+------------+-------------+-------------+--------+-------------+--------------------------+
+| Prachi    | Mandve     | familybook  | family  | Vashi      | Navi Mumbai | Maharashtra | 400703 | 9967734725  | prachimandve07@gmail.com |
+| Prajakta  | Tambe      | friendsbook | friends | Kalamboli  | Panvel      | Maharashtra | 410218 | 8104706110  | prajtambe@gmail.com      |
+| Pratibha  | Mandve     | familybook  | family  | Kothrud    | Pune        | Maharashtra | 405551 | 9987365780  | pratibha67@gmail.com     |
+| Ruchi     | Mandve     | familybook  | family  | Sanpada    | Navi Mumbai | Maharashtra | 400705 | 9892735509  | ruchimandve07@gmail.com  |
+| Rutuja    | Saigaonkar | friendsbook | friends | New Panvel | Panvel      | Maharashtra | 410216 | 8380037719  | rutssai@gmail.com        |
++-----------+------------+-------------+---------+------------+-------------+-------------+--------+-------------+--------------------------+
+5 rows in set (0.00 sec)
