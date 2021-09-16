@@ -327,3 +327,242 @@ mysql> select * from contact_book;
 | Rutuja    | Saigaonkar | friendsbook | friends | New Panvel | Panvel      | Maharashtra | 410216 | 8380037719  | rutssai@gmail.com        |
 +-----------+------------+-------------+---------+------------+-------------+-------------+--------+-------------+--------------------------+
 5 rows in set (0.00 sec)
+
+
+
+UC13-
+Ensure all retrieve
+queries done especially
+in UC 6, UC 7, UC 8 and
+UC 10 are working with
+new table structure
+
+
+mysql> use addressbook_system;
+Database changed
+mysql> create table contact
+    -> (
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> create table addressbook_type
+    -> (
+    -> type_id int not null,
+    -> ad_type varchar(60) not null,
+    -> ad_name varchar(60) not null);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table contact
+    -> (
+    -> contact_id int not null,
+    -> firstname varchar(50) not null,
+    -> lastname varchar(50) not null,
+    -> phone_no varchar(50) not null,
+    -> email varchar(60) not null,
+    -> primary key(contact_id),
+    -> type_id int,
+    -> foreign key(type_id) references addressbook_type(type_id));
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'contact_ibfk_1' in the referenced table 'addressbook_type'
+mysql> create table contact
+    -> (
+    -> contact_id int not null,
+    -> firstname varchar(50) not null,
+    -> lastname varchar(50) not null,
+    -> phone_no varchar(50) not null,
+    -> email varchar(60) not null,
+    -> primary key(contact_id),
+    -> type_id int,
+    -> foreign key(type_id) references addressbook_type(type_id));
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'contact_ibfk_1' in the referenced table 'addressbook_type'
+mysql> alter table addressbook_type add primary key(type_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table contact
+    -> (
+    -> contact_id int not null,
+    -> firstname varchar(50) not null,
+    -> lastname varchar(50) not null,
+    -> phone_no varchar(50) not null,
+    -> email varchar(60) not null,
+    -> primary key(contact_id),
+    -> type_id int,
+    -> foreign key(type_id) references addressbook_type(type_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table address
+    -> (
+    -> address_id int not null,
+    -> city varchar(50) not null,
+    -> state varchar(50) not null,
+    -> zip varchar(50_ not null,
+    -> primary key(address_id),
+    -> contact_id int,
+    -> foreign key(contact_id) references contact(contact_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50_ not null,
+primary key(address_id),
+contact_id int,
+foreign key(contact_id) r' at line 6
+mysql> create table address
+    -> (
+    -> contact_id int not null,
+    -> firstname varchar(50) not null,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> create table address
+    -> (
+    -> address_id int not null,
+    -> city varchar(50) not null,
+    -> state varchar(50) not null,
+    -> zip varchar(50_ not null,
+    -> primary key(address_id),
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '50_ not null,
+primary key(address_id),' at line 6
+mysql> create table address
+    -> (
+    -> address_id int not null,
+    -> city varchar(50) not null,
+    -> state varchar(50) not null,
+    -> zip varchar(50) not null,
+    -> primary key(address_id),
+    -> contact_id int,
+    -> foreign key(contact_id) references contact(contact_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> describe address;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| address_id | int         | NO   | PRI | NULL    |       |
+| city       | varchar(50) | NO   |     | NULL    |       |
+| state      | varchar(50) | NO   |     | NULL    |       |
+| zip        | varchar(50) | NO   |     | NULL    |       |
+| contact_id | int         | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> describe contact;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| contact_id | int         | NO   | PRI | NULL    |       |
+| firstname  | varchar(50) | NO   |     | NULL    |       |
+| lastname   | varchar(50) | NO   |     | NULL    |       |
+| phone_no   | varchar(50) | NO   |     | NULL    |       |
+| email      | varchar(60) | NO   |     | NULL    |       |
+| type_id    | int         | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> show tables;
++------------------------------+
+| Tables_in_addressbook_system |
++------------------------------+
+| address                      |
+| addressbook_type             |
+| contact                      |
++------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> describe addressbook_type;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| type_id | int         | NO   | PRI | NULL    |       |
+| ad_type | varchar(60) | NO   |     | NULL    |       |
+| ad_name | varchar(60) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into addressbook_type values(1,'FamilyBook','Family');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into addressbook_type values(2,'FriendsBook','Friends');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into contact values(1,'Ruchi','Mandve','9892735509','ruchimandve07@gmail.com',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into contact values(2,'Prachi','Mandve','9967734725','prachimandve07@gmail.com',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into contact values(3,'Prajakta','Tambe','8380037719','prajtambe@gmail.com',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from contact;
++------------+-----------+----------+------------+--------------------------+---------+
+| contact_id | firstname | lastname | phone_no   | email                    | type_id |
++------------+-----------+----------+------------+--------------------------+---------+
+|          1 | Ruchi     | Mandve   | 9892735509 | ruchimandve07@gmail.com  |       1 |
+|          2 | Prachi    | Mandve   | 9967734725 | prachimandve07@gmail.com |       1 |
+|          3 | Prajakta  | Tambe    | 8380037719 | prajtambe@gmail.com      |       2 |
++------------+-----------+----------+------------+--------------------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> insert into address values(1,'Navi Mumbai','Maharashtra','400705','9892735509');
+ERROR 1264 (22003): Out of range value for column 'contact_id' at row 1
+mysql> insert into address values(1,'Navi Mumbai','Maharashtra','400705',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into address values(2,'Panvel','Maharashtra','410251',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into address values(3,'Surat','Gujrat','400538',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from address;
++------------+-------------+-------------+--------+------------+
+| address_id | city        | state       | zip    | contact_id |
++------------+-------------+-------------+--------+------------+
+|          1 | Navi Mumbai | Maharashtra | 400705 |          1 |
+|          2 | Panvel      | Maharashtra | 410251 |          3 |
+|          3 | Surat       | Gujrat      | 400538 |          2 |
++------------+-------------+-------------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select contact.firstname,contact.lastname,address.city from contact inner join address on address.contact_id=contact.contact_id where address.state='Maharashtra';
++-----------+----------+-------------+
+| firstname | lastname | city        |
++-----------+----------+-------------+
+| Ruchi     | Mandve   | Navi Mumbai |
+| Prajakta  | Tambe    | Panvel      |
++-----------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from contact order by name;
+ERROR 1054 (42S22): Unknown column 'name' in 'order clause'
+mysql> select * from contact order by firstname;
++------------+-----------+----------+------------+--------------------------+---------+
+| contact_id | firstname | lastname | phone_no   | email                    | type_id |
++------------+-----------+----------+------------+--------------------------+---------+
+|          2 | Prachi    | Mandve   | 9967734725 | prachimandve07@gmail.com |       1 |
+|          3 | Prajakta  | Tambe    | 8380037719 | prajtambe@gmail.com      |       2 |
+|          1 | Ruchi     | Mandve   | 9892735509 | ruchimandve07@gmail.com  |       1 |
++------------+-----------+----------+------------+--------------------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from addressbook_type;
++---------+-------------+---------+
+| type_id | ad_type     | ad_name |
++---------+-------------+---------+
+|       1 | FamilyBook  | Family  |
+|       2 | FriendsBook | Friends |
++---------+-------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select addressbook_type.type_id,addressbook_type.ad_type,addressbook_type.ad_name,count(contact.type_id) from addressbook_type inner join contact on addressbook_type.type_id=contact.type_id;
++---------+------------+---------+------------------------+
+| type_id | ad_type    | ad_name | count(contact.type_id) |
++---------+------------+---------+------------------------+
+|       1 | FamilyBook | Family  |                      3 |
++---------+------------+---------+------------------------+
+1 row in set (0.00 sec)
+
+mysql> select addressbook_type.type_id,addressbook_type.ad_type,addressbook_type.ad_name,count(contact.type_id) from addressbook_type inner join contact on addressbook_type.type_id=contact.type_id group by type_id;
++---------+-------------+---------+------------------------+
+| type_id | ad_type     | ad_name | count(contact.type_id) |
++---------+-------------+---------+------------------------+
+|       1 | FamilyBook  | Family  |                      2 |
+|       2 | FriendsBook | Friends |                      1 |
++---------+-------------+---------+------------------------+
+2 rows in set (0.00 sec)
